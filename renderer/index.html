@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://avatars.githubusercontent.com; font-src 'self' data:; connect-src 'self' blob: data:">
+  <title>Scuttle</title>
+  <link rel="stylesheet" href="../node_modules/@xterm/xterm/css/xterm.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="titlebar">
+    <div class="title-left"></div>
+    <div id="title-text">Scuttle</div>
+    <div class="title-right">
+      <button id="btn-pet-quick" class="tb-btn" title="Summon your pet (⌘⇧K)">🐾</button>
+      <button id="btn-account" class="tb-btn account" title="GitHub account"><span class="gh-mark"></span><span id="account-label">Sign in</span></button>
+    </div>
+  </div>
+
+  <div id="workbench">
+    <nav id="activitybar">
+      <button data-view="explorer" class="act active" title="Explorer (⌘⇧E)">
+        <svg viewBox="0 0 24 24"><path d="M4 4h7l2 2h7v13H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+      <button data-view="search" class="act" title="Search (⌘⇧F)">
+        <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <button data-view="git" class="act" title="Source Control (⌘⇧G)">
+        <svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="19" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="8" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 7.2v9.6M18 10.2c0 4-6 3-11 6.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span id="git-badge" class="badge hidden">0</span></button>
+      <button data-view="github" class="act" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-2.8 17.6c.4 0 .6-.2.6-.5v-1.7c-2.5.5-3-1.1-3-1.1-.4-1-1-1.3-1-1.3-.8-.6.1-.6.1-.6.9.1 1.4 1 1.4 1 .8 1.4 2.1 1 2.6.8.1-.6.3-1 .6-1.2-2-.2-4.1-1-4.1-4.4 0-1 .4-1.8.9-2.4-.1-.2-.4-1.1.1-2.4 0 0 .8-.2 2.5.9a8.6 8.6 0 0 1 4.5 0c1.7-1.1 2.5-.9 2.5-.9.5 1.3.2 2.2.1 2.4.6.6.9 1.4.9 2.4 0 3.5-2.1 4.2-4.1 4.4.3.3.6.8.6 1.6v2.4c0 .3.2.6.7.5A9 9 0 0 0 12 3z" fill="currentColor"/></svg></button>
+      <div class="spacer"></div>
+      <button data-view="pet" class="act" title="Pet settings">
+        <svg viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="12" cy="16" rx="4.6" ry="3.8"/><ellipse cx="6" cy="10.5" rx="1.9" ry="2.4"/><ellipse cx="18" cy="10.5" rx="1.9" ry="2.4"/><ellipse cx="9.3" cy="6.3" rx="1.8" ry="2.3"/><ellipse cx="14.7" cy="6.3" rx="1.8" ry="2.3"/></g></svg></button>
+    </nav>
+
+    <aside id="sidebar">
+      <!-- Explorer -->
+      <section class="view" id="view-explorer">
+        <header><span>EXPLORER</span>
+          <div class="hdr-btns">
+            <button id="ex-newfile" title="New file">＋📄</button>
+            <button id="ex-newfolder" title="New folder">＋📁</button>
+            <button id="ex-refresh" title="Refresh">⟳</button>
+          </div></header>
+        <div id="ex-root-name" class="root-name"></div>
+        <div id="ex-empty" class="empty-hint">
+          <p>No folder open yet.</p>
+          <button class="primary" id="ex-open">Open Folder</button>
+        </div>
+        <div id="tree" class="scroll"></div>
+      </section>
+      <!-- Search -->
+      <section class="view hidden" id="view-search">
+        <header><span>SEARCH</span></header>
+        <div class="pad">
+          <input id="search-input" type="text" placeholder="Search in files…" spellcheck="false">
+          <div class="row small">
+            <label><input type="checkbox" id="search-case"> Aa match case</label>
+            <label><input type="checkbox" id="search-regex"> .* regex</label>
+          </div>
+          <div id="search-summary" class="muted small"></div>
+        </div>
+        <div id="search-results" class="scroll"></div>
+      </section>
+      <!-- Git -->
+      <section class="view hidden" id="view-git">
+        <header><span>SOURCE CONTROL</span>
+          <div class="hdr-btns"><button id="git-refresh" title="Refresh">⟳</button></div></header>
+        <div id="git-body" class="scroll"></div>
+      </section>
+      <!-- GitHub -->
+      <section class="view hidden" id="view-github">
+        <header><span>GITHUB</span></header>
+        <div id="gh-body" class="scroll"></div>
+      </section>
+      <!-- Pet -->
+      <section class="view hidden" id="view-pet">
+        <header><span>CODING PET</span></header>
+        <div id="pet-body" class="scroll pad"></div>
+      </section>
+    </aside>
+    <div id="sash-side" class="sash vertical"></div>
+
+    <main id="main">
+      <div id="tabs"></div>
+      <div id="editor-wrap">
+        <div id="editor"></div>
+        <div id="welcome">
+          <div class="welcome-inner">
+            <canvas id="welcome-pet" width="16" height="13"></canvas>
+            <h1>Scuttle</h1>
+            <p class="muted">a cosy code editor where a little buddy keeps you company</p>
+            <div class="welcome-actions">
+              <button class="primary" id="wl-open">📂 Open Folder</button>
+              <button id="wl-new">📄 New File</button>
+              <button id="wl-github">☁️ Clone from GitHub</button>
+            </div>
+            <div id="wl-recent"></div>
+            <p class="muted small">⌘O open · ⌘P quick open · ⌘S save · ⌃` terminal · ⌘⇧K summon pet</p>
+          </div>
+        </div>
+        <div id="nonText" class="hidden"></div>
+      </div>
+      <div id="sash-panel" class="sash horizontal"></div>
+      <section id="panel">
+        <header>
+          <span class="panel-title">TERMINAL</span>
+          <div class="hdr-btns">
+            <button id="term-new" title="Restart terminal">⟳</button>
+            <button id="term-close" title="Hide">✕</button>
+          </div>
+        </header>
+        <div id="terminal"></div>
+      </section>
+    </main>
+  </div>
+
+  <footer id="statusbar">
+    <span id="sb-branch" class="sb-item"></span>
+    <span id="sb-sync" class="sb-item"></span>
+    <span class="sb-grow"></span>
+    <span id="sb-pet" class="sb-item" title="Coding pet"></span>
+    <span id="sb-pos" class="sb-item"></span>
+    <span id="sb-lang" class="sb-item"></span>
+    <button id="sb-term" class="sb-item sb-btn" title="Toggle terminal">⌨ Terminal</button>
+  </footer>
+
+  <div id="pet-layer"></div>
+  <div id="modal-layer" class="hidden"></div>
+  <div id="toasts"></div>
+
+  <script src="../node_modules/@xterm/xterm/lib/xterm.js"></script>
+  <script src="../node_modules/@xterm/addon-fit/lib/addon-fit.js"></script>
+  <script src="pets.js"></script>
+  <script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
