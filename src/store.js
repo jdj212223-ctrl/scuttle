@@ -10,7 +10,7 @@ const DEFAULTS = {
   pet: {
     enabled: true,      // summon a pet when you code a lot
     kind: 'blob',       // blob | cat | cloud | robot | crab
-    color: '#7ad7a8',
+    color: '#9fcf7a',
     name: 'Gloop',
     size: 4,            // pixel size, 2..8
     summonMinutes: 2,   // minutes of steady typing before the pet shows up
@@ -25,7 +25,11 @@ function readJSON(p, fb) { try { return JSON.parse(fs.readFileSync(p, 'utf8')); 
 
 function getSettings() {
   const s = readJSON(file(), {});
-  return { ...DEFAULTS, ...s, pet: { ...DEFAULTS.pet, ...(s.pet || {}) } };
+  const pet = { ...DEFAULTS.pet, ...(s.pet || {}) };
+  // old cool-toned default colours -> the warm palette
+  const OLD = { '#7ad7a8': '#9fcf7a', '#f2b866': '#f0a06a', '#dfe8ff': '#f3e6cf', '#9aa7ff': '#7ccbbf', '#4fb7e8': '#e8a0c4' };
+  if (OLD[pet.color]) pet.color = OLD[pet.color];
+  return { ...DEFAULTS, ...s, pet };
 }
 function setSettings(patch) {
   const cur = getSettings();

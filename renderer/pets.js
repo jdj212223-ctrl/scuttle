@@ -6,14 +6,14 @@
 (function () {
   const PETS = {
     blob: {
-      label: 'Blob', defaultName: 'Gloop', defaultColor: '#7ad7a8', bob: true,
+      label: 'Blob', defaultName: 'Gloop', defaultColor: '#9fcf7a', bob: true,
       rows: [
         '........', '....oooo', '...obbbb', '..obllbb', '.obblbbb', '.obbbbbb', 'obbbebbb',
         'obbbebbb', 'obpbbbbm', 'obbbbbbb', 'obbbbbbb', '.obbbbbb', '..oooooo',
       ],
     },
     cat: {
-      label: 'Cat', defaultName: 'Biscuit', defaultColor: '#f2b866',
+      label: 'Cat', defaultName: 'Biscuit', defaultColor: '#f0a06a',
       rows: [
         '.o......', '.oo.....', '.obo....', '.obboooo', '.obbbbbb', 'obbbbbbb', 'obbebbbb',
         'obbebbbb', 'obpbbbbm', '.obbbbbb', '..obbbbb', '.obbdbbb', '.obbbdbb', '..oooooo',
@@ -21,14 +21,14 @@
       legs: ['..o..o..', '...o..o.'],
     },
     cloud: {
-      label: 'Cloud', defaultName: 'Puff', defaultColor: '#dfe8ff', bob: true,
+      label: 'Cloud', defaultName: 'Puff', defaultColor: '#f3e6cf', bob: true,
       rows: [
         '........', '....ooo.', '...obbbo', '.oobbbbb', 'obbllbbb', 'obbbebbb', 'obbbebbb',
         'obpbbbbm', 'obbbbbbb', '.obbbbbb', '..oooooo',
       ],
     },
     robot: {
-      label: 'Robot', defaultName: 'Bolt', defaultColor: '#9aa7ff',
+      label: 'Robot', defaultName: 'Bolt', defaultColor: '#7ccbbf',
       rows: [
         '.......o', '......oy', '.......o', '..oooooo', '..olllll', '..obbbbb', '..obebbb',
         'oobbebbb', '..obbbbb', '..obbmmm', '..obbbbb', '..oooooo', '...obdbb', '...obbyb', '...ooooo',
@@ -36,7 +36,7 @@
       legs: ['....o...', '.....o..'],
     },
     crab: {
-      label: 'Crab', defaultName: 'Pinch', defaultColor: '#4fb7e8',
+      label: 'Crab', defaultName: 'Pinch', defaultColor: '#e8a0c4',
       rows: [
         '.oo.....', 'obbo....', 'o.bo....', 'obbo....', '.oo.oooo', '..oobbbb', '..obllbb',
         '.obbebbb', 'obbbebbb', 'obpbbbbm', '.obbbbbb', '..oooooo',
@@ -109,7 +109,7 @@
   class Pet {
     constructor(host, opts) {
       this.host = host;
-      this.opts = Object.assign({ kind: 'blob', color: '#7ad7a8', name: 'Gloop', size: 4, climb: true }, opts || {});
+      this.opts = Object.assign({ kind: 'blob', color: '#9fcf7a', name: 'Gloop', size: 4, climb: true }, opts || {});
       this.el = document.createElement('div');
       this.el.className = 'scuttle-pet';
       this.el.style.cssText = 'position:absolute;left:0;top:0;pointer-events:auto;cursor:pointer;will-change:transform;z-index:50;';
@@ -119,7 +119,7 @@
       this.bubble = document.createElement('div');
       this.bubble.className = 'scuttle-pet-bubble';
       this.bubble.style.cssText = 'position:absolute;left:0;top:0;pointer-events:none;z-index:51;opacity:0;transition:opacity .25s;' +
-        'font:600 12px/1.2 -apple-system,system-ui,sans-serif;color:#1d1b2c;background:#fff;border:2px solid #1d1b2c;' +
+        'font:600 12px/1.2 -apple-system,system-ui,sans-serif;color:#2a241f;background:#fbf4e8;border:2px solid #2a241f;' +
         'border-radius:9px;padding:3px 7px;white-space:nowrap;box-shadow:2px 2px 0 rgba(0,0,0,.25);';
       this.ctx = this.canvas.getContext('2d');
       this.p = 20; this.dir = 1; this.mood = 'walk'; this.moodUntil = 0; this.frame = 0; this.frameT = 0;

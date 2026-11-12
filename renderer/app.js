@@ -79,18 +79,30 @@ function defineTheme() {
   monaco.editor.defineTheme('scuttle-night', {
     base: 'vs-dark', inherit: true,
     rules: [
-      { token: 'comment', foreground: '6f6c8f', fontStyle: 'italic' },
-      { token: 'keyword', foreground: 'b49cff' },
-      { token: 'string', foreground: '8ee6b8' },
-      { token: 'number', foreground: 'ffb86b' },
-      { token: 'type', foreground: '7fd3ff' },
-      { token: 'delimiter', foreground: 'a7a4c4' },
+      { token: 'comment', foreground: '8c8173', fontStyle: 'italic' },
+      { token: 'keyword', foreground: 'ee9466' },
+      { token: 'string', foreground: 'a9d27f' },
+      { token: 'string.escape', foreground: 'f0c35b' },
+      { token: 'number', foreground: 'f0c35b' },
+      { token: 'regexp', foreground: 'e8a0c4' },
+      { token: 'type', foreground: '7ccbbf' },
+      { token: 'type.identifier', foreground: '7ccbbf' },
+      { token: 'tag', foreground: 'ee9466' },
+      { token: 'attribute.name', foreground: 'f0c35b' },
+      { token: 'attribute.value', foreground: 'a9d27f' },
+      { token: 'variable.predefined', foreground: 'e8a0c4' },
+      { token: 'delimiter', foreground: 'b8ad9e' },
+      { token: 'identifier', foreground: 'efe7da' },
     ],
     colors: {
-      'editor.background': '#15151f', 'editor.foreground': '#e3e1f2', 'editorLineNumber.foreground': '#4b4868',
-      'editorLineNumber.activeForeground': '#b9b6d6', 'editor.lineHighlightBackground': '#1f1f2e', 'editor.selectionBackground': '#4a3fa055',
-      'editorCursor.foreground': '#8b7bff', 'editorIndentGuide.background1': '#26263a', 'editorWidget.background': '#1b1b28',
-      'minimap.background': '#17171f', 'scrollbarSlider.background': '#3a3a5566',
+      'editor.background': '#1d1b19', 'editor.foreground': '#efe7da', 'editorLineNumber.foreground': '#5a524a',
+      'editorLineNumber.activeForeground': '#d8cdbd', 'editor.lineHighlightBackground': '#25221f', 'editor.lineHighlightBorder': '#00000000',
+      'editor.selectionBackground': '#e0825f40', 'editor.inactiveSelectionBackground': '#e0825f22', 'editor.wordHighlightBackground': '#f0c35b22',
+      'editorCursor.foreground': '#f0a37f', 'editorIndentGuide.background1': '#2f2b27', 'editorIndentGuide.activeBackground1': '#4a433c',
+      'editorWidget.background': '#242220', 'editorWidget.border': '#3a3530', 'editorSuggestWidget.selectedBackground': '#4a3529',
+      'editorBracketHighlight.foreground1': '#f0c35b', 'editorBracketHighlight.foreground2': '#e8a0c4', 'editorBracketHighlight.foreground3': '#7ccbbf',
+      'minimap.background': '#1f1d1b', 'scrollbarSlider.background': '#4a433c66', 'scrollbarSlider.hoverBackground': '#5a524a88',
+      'editorGutter.background': '#1d1b19', 'focusBorder': '#e0825f88',
     },
   });
 }
@@ -411,9 +423,9 @@ let fit;
 function setupTerminal() {
   state.term = new Terminal({
     fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace', fontSize: 13, cursorBlink: true, allowProposedApi: true,
-    theme: { background: '#15151f', foreground: '#e3e1f2', cursor: '#8b7bff', selectionBackground: '#4a3fa088',
-      black: '#1d1b2c', red: '#ff6b81', green: '#6be0b4', yellow: '#ffcf5c', blue: '#7fa8ff', magenta: '#c49cff', cyan: '#7fd3ff', white: '#e3e1f2',
-      brightBlack: '#5c5a78' },
+    theme: { background: '#1d1b19', foreground: '#efe7da', cursor: '#f0a37f', selectionBackground: '#e0825f55',
+      black: '#2d2a27', red: '#ef7a74', green: '#a9d27f', yellow: '#f0c35b', blue: '#82b3e0', magenta: '#e8a0c4', cyan: '#7ccbbf', white: '#efe7da',
+      brightBlack: '#6e655b' },
   });
   fit = new FitAddon.FitAddon();
   state.term.loadAddon(fit);
@@ -705,7 +717,7 @@ async function savePet(patch, live = true) {
   if (popped) S.pet.event({ type: 'opts', opts: petOpts() });
   drawWelcomePet(); updatePetStatus();
 }
-const SWATCHES = ['#7ad7a8', '#f2b866', '#dfe8ff', '#9aa7ff', '#4fb7e8', '#ff8fb1', '#ff7a6b', '#c49cff', '#ffe066', '#8a8a8a', '#3b3b4f'];
+const SWATCHES = ['#9fcf7a', '#f0a06a', '#f3e6cf', '#7ccbbf', '#e8a0c4', '#f0c35b', '#e0825f', '#c9a6e8', '#82b3e0', '#b39b84', '#5e544a'];
 function renderPetPanel() {
   const body = $('#pet-body'); body.innerHTML = '';
   const s = state.settings.pet;

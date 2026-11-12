@@ -24,7 +24,7 @@ function createWindow() {
     height: 900,
     minWidth: 760,
     minHeight: 480,
-    backgroundColor: '#15151f',
+    backgroundColor: '#1d1b19',
     title: 'Scuttle',
     titleBarStyle: 'hiddenInset',
     trafficLightPosition: { x: 14, y: 12 },
